@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PadelClub - Бронирование кортов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          sans-serif;
+        background: #f8fafc;
+        min-height: 100vh;
+        color: #1e293b;
+      }
+
+      /* Header */
+      .header {
+        background: #fff;
+        padding: 16px 24px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 22px;
+        font-weight: 700;
+        color: #092ee4;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #092ee4 0%, #3b5bdb 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 18px;
+      }
+
+      .nav {
+        display: flex;
+        gap: 32px;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: #64748b;
+        font-weight: 500;
+        font-size: 15px;
+        transition: color 0.2s;
+      }
+
+      .nav a:hover {
+        color: #092ee4;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          #092ee4 0%,
+          #3b5bdb 50%,
+          #6366f1 100%
+        );
+        padding: 80px 24px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-text h1 {
+        font-size: 52px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 20px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+
+      .hero-text p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 32px;
+        line-height: 1.7;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all 0.2s;
+        cursor: pointer;
+        border: none;
+      }
+
+      .btn-primary {
+        background: #fff;
+        color: #092ee4;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .hero-image {
+        position: relative;
+      }
+
+      .hero-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .hero-card-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .hero-card-icon {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+      }
+
+      .hero-card-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .hero-card-subtitle {
+        font-size: 14px;
+        color: #64748b;
+        margin-top: 4px;
+      }
+
+      .hero-card-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .stat {
+        text-align: center;
+        padding: 16px;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #092ee4;
+      }
+
+      .stat-label {
+        font-size: 13px;
+        color: #64748b;
+        margin-top: 4px;
+      }
+
+      /* Features Section */
+      .features {
+        padding: 80px 24px;
+        background: #fff;
+      }
+
+      .features-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-header h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 16px;
+      }
+
+      .section-header p {
+        font-size: 18px;
+        color: #64748b;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+
+      .feature-card {
+        background: #f8fafc;
+        padding: 32px;
+        border-radius: 20px;
+        transition: all 0.3s;
+        border: 1px solid transparent;
+      }
+
+      .feature-card:hover {
+        background: #fff;
+        border-color: #e2e8f0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        transform: translateY(-4px);
+      }
+
+      .feature-icon {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #092ee4 0%, #3b5bdb 100%);
+        border-radius: 14px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+
+      .feature-card h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #1e293b;
+      }
+
+      .feature-card p {
+        color: #64748b;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+
+      /* CTA Section */
+      .cta {
+        padding: 80px 24px;
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      }
+
+      .cta-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .cta h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 16px;
+      }
+
+      .cta p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 32px;
+      }
+
+      /* Footer */
+      .footer {
+        background: #0f172a;
+        color: #fff;
+        padding: 48px 24px;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .footer p {
+        color: #64748b;
+        font-size: 14px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 24px;
+      }
+
+      .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+      }
+
+      .footer-links a:hover {
+        color: #fff;
+      }
+
+      /* Responsive */
+      @media (max-width: 968px) {
+        .hero-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .hero-text h1 {
+          font-size: 36px;
+        }
+
+        .hero-buttons {
+          justify-content: center;
+        }
+
+        .hero-image {
+          max-width: 400px;
+          margin: 0 auto;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 24px;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav {
+          display: none;
+        }
+
+        .hero {
+          padding: 48px 16px;
+        }
+
+        .hero-card-stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <div class="logo-icon">🎾</div>
+          PadelClub
+        </a>
+        <nav class="nav">
+          <a href="#">Корты</a>
+          <a href="#">Расписание</a>
+          <a href="#">Цены</a>
+          <a href="#">О нас</a>
+          <a href="#">Контакты</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Забронируй падел-корт за минуту</h1>
+          <p>
+            Присоединяйтесь к крупнейшему сообществу любителей падела.
+            Бронируйте корты онлайн, находите партнёров и участвуйте в турнирах.
+          </p>
+          <div class="hero-buttons">
+            <a href="#" class="btn btn-primary">
+              <span>📅</span> Забронировать
+            </a>
+            <a href="#" class="btn btn-secondary"> Узнать больше </a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div class="hero-card-icon">🏆</div>
+              <div>
+                <div class="hero-card-title">PadelClub Moscow</div>
+                <div class="hero-card-subtitle">
+                  Премиум корты в центре города
+                </div>
+              </div>
+            </div>
+            <div class="hero-card-stats">
+              <div class="stat">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Кортов</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Работаем</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">5k+</div>
+                <div class="stat-label">Игроков</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="features-content">
+        <div class="section-header">
+          <h2>Почему выбирают нас</h2>
+          <p>Всё для комфортной игры в падел в одном месте</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Быстрое бронирование</h3>
+            <p>
+              Забронируйте корт в пару кликов через удобный виджет прямо на
+              сайте
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💳</div>
+            <h3>Сплит-оплата</h3>
+            <p>Разделите стоимость бронирования между всеми участниками игры</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Рейтинговая система</h3>
+            <p>Отслеживайте свой прогресс и находите игроков своего уровня</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="cta-content">
+        <h2>Готовы начать игру?</h2>
+        <p>Нажмите на кнопку в правом нижнем углу, чтобы забронировать корт</p>
+        <a href="#" class="btn btn-primary"> <span>🚀</span> Начать сейчас </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="logo-icon">🎾</div>
+          PadelClub
+        </div>
+        <p>&copy; 2024 PadelClub. Все права защищены.</p>
+        <div class="footer-links">
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Условия использования</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Widget Container -->
+    <div id="padel-widget"></div>
+
+    <!-- Widget Script -->
+    <script src="https://dev.external.padelapp.club/widget/widget.iife.js"></script>
+    <script>
+      PadelWidget.init({
+        containerId: 'padel-widget',
+        apiKey:
+          'sk_live_22a0dd38b4fd5180d26113b91855e4f3344b95d073898046e74316b60b92217f',
+        theme: 'light',
+        language: 'ru',
+        position: {
+          bottom: '24px',
+          right: '24px',
+        },
+        onReady: function () {
+          console.log('Widget ready!');
+        },
+        onError: function (error) {
+          console.error('Widget error:', error);
+        },
+        onEvent: function (event) {
+          console.log('Widget event:', event);
+        },
+      });
+    </script>
+  </body>
+</html>
